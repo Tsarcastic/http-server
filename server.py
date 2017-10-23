@@ -12,6 +12,7 @@ def main():
     server.bind(address)
     server.listen()
     conn, addr = server.accept()
+    print(conn)
 
 if __name__ == '__main__':
     main()
