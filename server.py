@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
-"""Client portion of the exercise on day 6 of Python 401."""
+"""Server portion of the exercise on day 6 of Python 401."""
 import socket
 
 
@@ -21,7 +21,7 @@ def server():
         print(part.decode('utf8'))
         if len(part) < buffer_length:
             break
-    message = part
+    message = part.decode('utf8')
     conn.sendall(message.encode('utf8'))
     conn.close()
     server.close()
