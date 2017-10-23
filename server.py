@@ -1,8 +1,10 @@
+#!/usr/bin/python
+# -*- coding: utf8 -*-
 """Client portion of the exercise on day 6 of Python 401."""
 import socket
 
 
-def main():
+def server():
     """The main server function."""
     server = socket.socket(socket.AF_INET,
                            socket.SOCK_STREAM,
@@ -12,7 +14,14 @@ def main():
     server.bind(address)
     server.listen()
     conn, addr = server.accept()
-    print(conn)
+    buffer_length = 300
+    message_complete = False
+    while not message_complete:
+        part = conn.recv(buffer_length)
+        print(part.decode('utf8'))
+        if len(part) < buffer_length:
+            break
+
 
 if __name__ == '__main__':
-    main()
+    server()
