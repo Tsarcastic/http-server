@@ -21,6 +21,10 @@ def server():
         print(part.decode('utf8'))
         if len(part) < buffer_length:
             break
+    message = part
+    conn.sendall(message.encode('utf8'))
+    conn.close()
+    server.close()
 
 
 if __name__ == '__main__':

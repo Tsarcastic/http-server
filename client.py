@@ -10,6 +10,14 @@ def client():
     client.connect(stream_info[-1])
     message = u'This is a fancy message, containing über-important information'
     client.sendall(message.encode('utf8'))
+    buffer_length = 300
+    message_complete = False
+    while not message_complete:
+        part = client.recv(buffer_length)
+        print(part.decode('utf8'))
+        if len(part) < buffer_length:
+            break
+    client.close()
 
 
 if __name__ == '__main__':
