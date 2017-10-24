@@ -1,3 +1,6 @@
 test messagethis is a         longer     string
 this is a         longer     string
 NEW STRING
+GET /index.html HTTP/1.1
+
+

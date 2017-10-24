@@ -22,7 +22,6 @@ def server():
         if len(part) < buffer_length:
             break
     write_to_stndout(incoming)
-    # message = part.decode('utf8')
     conn.sendall(response_ok())
     conn.close()
     server.close()
@@ -31,14 +30,18 @@ def server():
 def response_ok():
     """Return an HTTP 200 message."""
     two_hundred = """HTTP/1.1 200 OK
-                Content-Type: text/plain"""
+Content-Type: text/plain
+
+"""
     return two_hundred.encode('utf8')
 
 
 def response_error():
     """Return an HTTP 500 message."""
-    five_hundred = """HTTP/1.1 500 UH-OH<CRLF>
-                    Date: Mon, 23 May 2005 22:38:34 GMT<CRLF>"""
+    five_hundred = """HTTP/1.1 500 UH-OH
+Content-Type: text/plain
+
+"""
     return five_hundred.encode('utf-8')
 
 
@@ -49,4 +52,8 @@ def write_to_stndout(incoming_text):
 
 
 if __name__ == '__main__':
-    server()
+    try:
+        server()
+    except KeyboardInterrupt:
+        print('You pressed ctrl + c')
+        pass
