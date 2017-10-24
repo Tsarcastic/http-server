@@ -18,11 +18,12 @@ def server():
     message_complete = False
     while not message_complete:
         part = conn.recv(buffer_length)
-        print(part.decode('utf8'))
+        incoming = part.decode('utf8')
         if len(part) < buffer_length:
             break
-    message = part.decode('utf8')
-    conn.sendall(message.encode('utf8'))
+    write_to_stndout(incoming)
+    # message = part.decode('utf8')
+    conn.sendall(response_ok())
     conn.close()
     server.close()
 
@@ -39,6 +40,12 @@ def response_error():
     five_hundred = """HTTP/1.1 500 UH-OH<CRLF>
                     Date: Mon, 23 May 2005 22:38:34 GMT<CRLF>"""
     return five_hundred.encode('utf-8')
+
+
+def write_to_stndout(incoming_text):
+    """Write message received to txt file."""
+    with open('stndout.txt', 'a') as myfile:
+        myfile.write(incoming_text + '\n')
 
 
 if __name__ == '__main__':
