@@ -27,5 +27,19 @@ def server():
     server.close()
 
 
+def response_ok():
+    """Return an HTTP 200 message."""
+    two_hundred = """HTTP/1.1 200 OK
+                Content-Type: text/plain"""
+    return two_hundred.encode('utf8')
+
+
+def response_error():
+    """Return an HTTP 500 message."""
+    five_hundred = """HTTP/1.1 500 UH-OH<CRLF>
+                    Date: Mon, 23 May 2005 22:38:34 GMT<CRLF>"""
+    return five_hundred.encode('utf-8')
+
+
 if __name__ == '__main__':
     server()
