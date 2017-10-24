@@ -17,10 +17,12 @@ def client(user_mess):
     message_complete = False
     while not message_complete:
         part = client.recv(buffer_length)
-        print(part.decode('utf8'))
+        return_message = part.decode('utf8')
         if len(part) < buffer_length:
             break
+    print(return_message)
     client.close()
+    return return_message
 
 
 if __name__ == '__main__':

@@ -13,7 +13,16 @@ def server():
     address = ('127.0.0.1', 5000)
     server.bind(address)
     server.listen()
+    print("The server is now listening")
     conn, addr = server.accept()
+    message = receive_message(conn)
+    conn.sendall(message.encode('utf8'))
+    conn.close()
+    server.close()
+
+
+def receive_message(conn):
+    """Receives and decodes the message"""
     buffer_length = 300
     message_complete = False
     while not message_complete:
@@ -21,10 +30,7 @@ def server():
         print(part.decode('utf8'))
         if len(part) < buffer_length:
             break
-    message = part.decode('utf8')
-    conn.sendall(message.encode('utf8'))
-    conn.close()
-    server.close()
+    return part.decode('utf8')
 
 
 if __name__ == '__main__':
