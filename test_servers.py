@@ -1,4 +1,4 @@
-"""Test client's ability to send a message and receive an echo"""
+"""Test client's ability to send a message and receive an echo."""
 import pytest
 
 

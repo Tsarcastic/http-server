@@ -28,4 +28,8 @@ def server():
 
 
 if __name__ == '__main__':
-    server()
+    try:
+        server()
+    except KeyboardInterrupt:
+        print('You pressed ctrl + c')
+        pass
