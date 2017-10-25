@@ -23,6 +23,7 @@ def server():
             break
     write_to_stndout(incoming)
     conn.sendall(response_ok())
+    conn.sendall(parse_request(incoming))
     conn.close()
     server.close()
 
@@ -65,7 +66,9 @@ def parse_request(request):
     try:
         valid_host(the_split[1])
     except:
+        print(the_split)
         raise Exception("Invalid host")
+    print(response_ok())
     return the_split[0][4:-9]
 
 

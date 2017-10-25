@@ -11,3 +11,6 @@ echo echo echo
 GET /index.html HTTP/1.1
 
 
+GET /index.html HTTP/1.1\r\nHost: www.google.com
+GET /index.html HTTP/1.1\r\nHost: www.google.com
+GET /index.html HTTP/1.1\r\nHost: www.google.com
