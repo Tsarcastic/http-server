@@ -52,7 +52,8 @@ def write_to_stndout(incoming_text):
 
 
 def parse_request(request):
-    the_split = request.split("\r\n\r\n")
+    """Parse http request and validate all pieces."""
+    the_split = request.split("\r\n")
     try:
         method_validation(the_split[0])
     except:
@@ -65,13 +66,13 @@ def parse_request(request):
         valid_host(the_split[1])
     except:
         raise Exception("Invalid host")
-
+    return the_split[0][4:-9]
 
 
 def method_validation(item):
     """Validate the item is a GET request."""
     method = item[:3]
-    try method == "GET":
+    if method == "GET":
         return True
     else:
         return False
@@ -79,7 +80,7 @@ def method_validation(item):
 
 def http_version(item):
     """Validate the HTTP version is correct."""
-    http = item[-8]
+    http = item[-8:]
     if http == "HTTP/1.1":
         return True
     else:
@@ -87,6 +88,7 @@ def http_version(item):
 
 
 def valid_host(item):
+    """Validate host header."""
     host = item[:4]
     if host == "Host":
         return True
