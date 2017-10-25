@@ -51,6 +51,48 @@ def write_to_stndout(incoming_text):
         myfile.write(incoming_text + '\n')
 
 
+def parse_request(request):
+    the_split = request.split("\r\n\r\n")
+    try:
+        method_validation(the_split[0])
+    except:
+        raise Exception("Not a GET request")
+    try:
+        http_version(the_split[0])
+    except:
+        raise Exception("Wrong HTTP version")
+    try:
+        valid_host(the_split[1])
+    except:
+        raise Exception("Invalid host")
+
+
+
+def method_validation(item):
+    """Validate the item is a GET request."""
+    method = item[:3]
+    try method == "GET":
+        return True
+    else:
+        return False
+
+
+def http_version(item):
+    """Validate the HTTP version is correct."""
+    http = item[-8]
+    if http == "HTTP/1.1":
+        return True
+    else:
+        return False
+
+
+def valid_host(item):
+    host = item[:4]
+    if host == "Host":
+        return True
+    else:
+        return False
+
 if __name__ == '__main__':
     try:
         server()

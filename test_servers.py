@@ -23,7 +23,10 @@ Content-Type: text/plain
 """
     assert response_ok() == expected_response.encode('utf8')
 
-
+def test_method_validation_returns_true:
+    from server import method_validation
+    new = "GET /index.html HTTP/1.1"[:3]
+    assert method_validation(new) == True
 def test_response_error():
     """Test response error function."""
     from server import response_error
