@@ -16,6 +16,7 @@ def server():
     conn, addr = server.accept()
     buffer_length = 300
     message_complete = False
+    error_message = ""
     while not message_complete:
         part = conn.recv(buffer_length)
         incoming = part.decode('utf8')
@@ -25,7 +26,9 @@ def server():
     if parse_request(incoming):
         conn.sendall(response_ok())
     else:
-        conn.sendall(response_error())
+        error_message = error_message.encode('utf8')
+        conn.sendall(error_message)
+        # conn.sendall(response_error())
     # conn.sendall(parse_request(incoming))
     conn.close()
     server.close()
@@ -80,6 +83,8 @@ def method_validation(item):
     if method == "GET":
         return True
     else:
+        global error_message
+        error_message = "Was not a GET request. Please try again."
         return False
 
 
@@ -89,6 +94,8 @@ def http_version(item):
     if http == "HTTP/1.1":
         return True
     else:
+        global error_message
+        error_message = "Was not HTTP Version 1.1."
         return False
 
 
@@ -98,6 +105,8 @@ def valid_host(item):
     if host == "Host":
         return True
     else:
+        global error_message
+        error_message = "Not valid Host."
         return False
 
 
