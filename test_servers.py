@@ -2,12 +2,6 @@
 import pytest
 
 
-# def test_send_and_receive_echo():
-#     """Send an echo to server and hear an echo back."""
-#     from client import client
-#     assert client('echo echo echo') == 'echo echo echo'
-
-
 def test_response_ok():
     """Test if response ok returns a HTTP200 message."""
     from server import response_ok
@@ -55,4 +49,25 @@ def test_parse_request():
     """Test to ensure uri is returned from valid request."""
     from server import parse_request
     full_request = 'GET /index.html HTTP/1.1\r\nHost: www.google.com'
-    assert parse_request(full_request) == '/index.html'
+    assert parse_request(full_request) is True
+
+
+def test_parse_bad_request_false():
+    """Test to see if parse request returns false with bad request."""
+    from server import parse_request
+    full_request = "post /index.html HTTP/1.1\r\nHost: www.google.com"
+    assert parse_request(full_request) is False
+
+
+def test_parse_bad_request_false2():
+    """Test to see if parse request returns false with bad request."""
+    from server import parse_request
+    full_request = "GET /index.html HTTP/999\r\nHost: www.google.com"
+    assert parse_request(full_request) is False
+
+
+def test_parse_bad_request_false3():
+    """Test to see if parse request returns false with bad request."""
+    from server import parse_request
+    full_request = "GET /index.html HTTP/1.1\r\n www.google.com"
+    assert parse_request(full_request) is False

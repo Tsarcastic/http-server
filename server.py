@@ -63,17 +63,14 @@ def parse_request(request):
         pass
     else:
         valid = False
-    # except:
-    #     raise Exception("Not a GET request")
-    # try:
-    #     http_version(the_split[0])
-    # except:
-    #     raise Exception("Wrong HTTP version")
-    # try:
-    #     valid_host(the_split[1])
-    # except:
-    #     raise Exception("Invalid host")
-    # print(response_ok())
+    if http_version(the_split[0]):
+        pass
+    else:
+        valid = False
+    if valid_host(the_split[1]):
+        pass
+    else:
+        valid = False
     return valid
 
 
@@ -102,25 +99,6 @@ def valid_host(item):
         return True
     else:
         return False
-
-
-# def parse_request(request):
-#     """Parse http request and validate all pieces."""
-#     the_split = request.split('\r\n')
-#     try:
-#         method_validation(the_split[0])
-#     except:
-#         raise Exception("Not a GET request")
-#     try:
-#         http_version(the_split[0])
-#     except:
-#         raise Exception("Wrong HTTP version")
-#     try:
-#         valid_host(the_split[1])
-#     except:
-#         raise Exception("Invalid host")
-#     # print(response_ok())
-#     return the_split[0][4:-9]
 
 
 if __name__ == '__main__':
