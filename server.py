@@ -16,7 +16,7 @@ def server():
     conn, addr = server.accept()
     buffer_length = 300
     message_complete = False
-    error_message = ""
+    # error_message = ""
     while not message_complete:
         part = conn.recv(buffer_length)
         incoming = part.decode('utf8')
@@ -26,9 +26,9 @@ def server():
     if parse_request(incoming):
         conn.sendall(response_ok())
     else:
-        error_message = error_message.encode('utf8')
-        conn.sendall(error_message)
-        # conn.sendall(response_error())
+        # error_message = error_message.encode('utf8')
+        # conn.sendall(error_message)
+        conn.sendall(response_error())
     # conn.sendall(parse_request(incoming))
     conn.close()
     server.close()
