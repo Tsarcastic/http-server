@@ -24,3 +24,9 @@ def test_weird_chars():
     """Test to see if message sent that is same length is returned."""
     from client import client
     assert client(u'blöd') == u'blöd'
+
+
+def test_short_buffer():
+    """Send an echo to server shorted than buffer."""
+    from client import client
+    assert client('short') == 'short'
