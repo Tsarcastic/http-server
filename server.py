@@ -24,14 +24,39 @@ def server():
             while not message_complete:
                 part = conn.recv(buffer_length)
                 incoming_mess += part.decode('utf8')
+                write_to_stndout(incoming_mess)
                 if '@' in incoming_mess:
-                    conn.sendall(incoming_mess.encode('utf8'))
+                    conn.sendall(response_ok())
                     conn.close()
                     message_complete = True
     except KeyboardInterrupt:
         print('You pressed ctrl + c')
         server.close()
         sys.exit()
+
+
+def response_ok():
+    """Return an HTTP 200 message."""
+    two_hundred = """HTTP/1.1 200 OK
+Content-Type: text/plain
+
+@"""
+    return two_hundred.encode('utf8')
+
+
+def response_error():
+    """Return an HTTP 500 message."""
+    five_hundred = """HTTP/1.1 500 INTERNAL SERVER ERROR
+Content-Type: text/plain
+
+@"""
+    return five_hundred.encode('utf-8')
+
+
+def write_to_stndout(incoming_text):
+    """Write message received to txt file."""
+    with open('stndout.txt', 'a') as myfile:
+        myfile.write(incoming_text + '\n')
 
 
 if __name__ == '__main__':
