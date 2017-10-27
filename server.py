@@ -35,16 +35,12 @@ def server():
         sys.exit()
 
 
-if __name__ == '__main__':
-    server()
-
-
 def response_ok():
     """Return an HTTP 200 message."""
     two_hundred = """HTTP/1.1 200 OK
 Content-Type: text/plain
 
-"""
+@"""
     return two_hundred.encode('utf8')
 
 
@@ -53,10 +49,15 @@ def response_error():
     five_hundred = """HTTP/1.1 500 INTERNAL SERVER ERROR
 Content-Type: text/plain
 
-"""
+@"""
     return five_hundred.encode('utf-8')
+
 
 def write_to_stndout(incoming_text):
     """Write message received to txt file."""
     with open('stndout.txt', 'a') as myfile:
         myfile.write(incoming_text + '\n')
+
+
+if __name__ == '__main__':
+    server()
