@@ -3,6 +3,9 @@
 """Server portion of the exercise on day 6 of Python 401."""
 import socket
 import sys
+import codecs
+import os
+import mimetypes
 
 
 def server():
@@ -11,7 +14,7 @@ def server():
                            socket.SOCK_STREAM,
                            socket.IPPROTO_TCP)
 
-    address = ('127.0.0.1', 5001)
+    address = ('127.0.0.1', 5003)
     server.bind(address)
     server.listen()
     try:
@@ -36,7 +39,7 @@ def server():
         sys.exit()
 
 
-def response_ok():
+def response_ok(contents, content_type):
     """Return an HTTP 200 message."""
     two_hundred = """HTTP/1.1 200 OK
 Content-Type: text/plain
@@ -57,16 +60,34 @@ Content-Type: text/plain
 def parse_request(request):
     """Parse HTTP request and validate carriage returns, method, HTTP version, and existence of host header."""
     the_split = request.split('\r\n')
-    method = the_split[0][0:3]
-    http_vers = the_split[0][-8:]
-    host_head = the_split[1][:5]
+    header = the_split[0]
+    host = the_split[1]
+    method, uri, http_vers = header.split(' ')
+    host_title = host[:5]
     if method != 'GET':
         return response_error('405', 'METHOD NOT ALLOWED')
     if http_vers != 'HTTP/1.1':
         return response_error('505', 'HTTP VERSION NOT SUPPORTED')
-    if host_head != 'Host:':
+    if host_title != 'Host:':
         return response_error('400', 'BAD REQUEST')
-    return response_ok()
+    else:
+        try:
+            contents, content_type = resolve_uri(uri)
+            return response_ok(contents, content_type)
+        except ValueError:
+            response_ok('404', 'NOT FOUND')
+
+
+def resolve_uri(uri):
+    """Function accepts uri passed in request and return a body for a response along with an indication of the content."""
+    wd = os.path.abspath(__file__).rstrip('/server.py')
+    path_to_file = wd + '/webroot' + uri
+    if os.path.isfile(path_to_file):
+        contents = ''
+        with codecs.open(path_to_file, errors='ignore') as file_output:
+            contents = file_output.read()
+        content_type = mimetypes.guess_type(str(path_to_file))[0]
+        return contents, content_type
 
 
 if __name__ == '__main__':
