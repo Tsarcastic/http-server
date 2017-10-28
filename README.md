@@ -7,3 +7,7 @@ The files contained in this repository create a server that can accept requests 
 ### Additions for Step 1
 
 Added functionality to return a properly formatted HTTP response to the client with response_ok and response_error functions.
+
+### Additions for Step 2
+
+Added parse_request function to validate request from client to ensure proper formatting, GET request, HTTP version 1.1, and the existence of a host header. Depending on the error in the request, the client will receive an applicable response.

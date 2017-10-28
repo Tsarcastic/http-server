@@ -6,7 +6,7 @@ import sys
 
 
 def server():
-    """The main server function."""
+    """Server function that listens for incoming requests from client."""
     server = socket.socket(socket.AF_INET,
                            socket.SOCK_STREAM,
                            socket.IPPROTO_TCP)
@@ -55,9 +55,8 @@ Content-Type: text/plain
 
 
 def parse_request(request):
-    """Parse http request and validate all pieces."""
+    """Parse HTTP request and validate carriage returns, method, HTTP version, and existence of host header."""
     the_split = request.split('\r\n')
-    # message = (the_split[0][3:-8]) + '@'
     method = the_split[0][0:3]
     http_vers = the_split[0][-8:]
     host_head = the_split[1][:5]
