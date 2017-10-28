@@ -24,7 +24,6 @@ def server():
             while not message_complete:
                 part = conn.recv(buffer_length)
                 incoming_mess += part.decode('utf8')
-                write_to_stndout(incoming_mess)
                 if '@' in incoming_mess:
                     message_complete = True
             incoming_mess.replace('@', '')
@@ -55,16 +54,10 @@ Content-Type: text/plain
     return five_hundred.encode('utf-8')
 
 
-def write_to_stndout(incoming_text):
-    """Write message received to txt file."""
-    with open('stndout.txt', 'a') as myfile:
-        myfile.write(incoming_text + '\n')
-
-
 def parse_request(request):
     """Parse http request and validate all pieces."""
     the_split = request.split('\r\n')
-    message = (the_split[0][3:-8]) + '@'
+    # message = (the_split[0][3:-8]) + '@'
     method = the_split[0][0:3]
     http_vers = the_split[0][-8:]
     host_head = the_split[1][:5]

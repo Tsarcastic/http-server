@@ -50,10 +50,46 @@ Content-Type: text/plain
 @"""
 
 
-def test_full_functionality():
-    """Functional test from start to finish."""
+def test_full_functionality_200():
+    """Functional test from start to finish for well-formed request."""
     from client import client
     client('GET /index.html HTTP/1.1\r\nHost: www.google.com\r\n\r\n') == b"""HTTP/1.1 200 OK
+Content-Type: text/plain
+
+@"""
+
+
+def test_full_functionality_405():
+    """Functional test from start to finish for well-formed request."""
+    from client import client
+    client('PUT /index.html HTTP/1.1\r\nHost: www.google.com\r\n\r\n') == b"""HTTP/1.1 405 METHOD NOT ALLOWED
+Content-Type: text/plain
+
+@"""
+
+
+def test_for_405_error():
+    """Check if proper message sent if GET request not present."""
+    from server import parse_request
+    assert parse_request('POST /index.html HTTP/1.1\r\nHost: www.google.com\r\n\r\n') == b"""HTTP/1.1 405 METHOD NOT ALLOWED
+Content-Type: text/plain
+
+@"""
+
+
+def test_for_505_error():
+    """Check if proper message sent if wrong HTTP version sent."""
+    from server import parse_request
+    assert parse_request('GET /index.html HTTP/1.0\r\nHost: www.google.com\r\n\r\n') == b"""HTTP/1.1 505 HTTP VERSION NOT SUPPORTED
+Content-Type: text/plain
+
+@"""
+
+
+def test_for_400_error():
+    """Check if host head present send send proper error."""
+    from server import parse_request
+    assert parse_request('GET /index.html HTTP/1.1\r\nHttt: www.google.com\r\n\r\n') == b"""HTTP/1.1 400 BAD REQUEST
 Content-Type: text/plain
 
 @"""
