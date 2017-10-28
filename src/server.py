@@ -41,14 +41,8 @@ def server():
 
 def response_ok(contents, content_type, size):
     """Return an HTTP 200 message."""
-    two_hundred = 'HTTP/1.1 200 OK\r\nContent-Type: {}\r\nContent-Length: {}'.format(content_type, size)
-    print(two_hundred)
+    two_hundred = 'HTTP/1.1 200 OK\r\nContent-Type: {}\r\nContent-Length: {}\r\n\r\n{}@'.format(content_type, size, contents)
     return two_hundred.encode('utf8')
-
-# two_hundred = """HTTP/1.1 200 OK
-# Content-Type: text/plain
-
-# @"""
 
 
 def response_error(code, phrase):
