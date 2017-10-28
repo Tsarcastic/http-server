@@ -86,6 +86,13 @@ def resolve_uri(uri):
         content_type = mimetypes.guess_type(str(path_to_file))[0]
         size = os.path.getsize(path_to_file)
         return contents, content_type, size
+    else:
+        contents = ''
+        content_type = "directory"
+        inside_dir = os.listdir(path_to_file)
+        for item in inside_dir:
+            contents += "<ul><li> {} </li></ul>\r\n".format(item)
+        return contents, content_type, 'N/A'
 
 
 if __name__ == '__main__':
