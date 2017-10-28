@@ -39,13 +39,16 @@ def server():
         sys.exit()
 
 
-def response_ok(contents, content_type):
+def response_ok(contents, content_type, size):
     """Return an HTTP 200 message."""
-    two_hundred = """HTTP/1.1 200 OK
-Content-Type: text/plain
-
-@"""
+    two_hundred = 'HTTP/1.1 200 OK\r\nContent-Type: {}\r\nContent-Length: {}'.format(content_type, size)
+    print(two_hundred)
     return two_hundred.encode('utf8')
+
+# two_hundred = """HTTP/1.1 200 OK
+# Content-Type: text/plain
+
+# @"""
 
 
 def response_error(code, phrase):
@@ -72,8 +75,8 @@ def parse_request(request):
         return response_error('400', 'BAD REQUEST')
     else:
         try:
-            contents, content_type = resolve_uri(uri)
-            return response_ok(contents, content_type)
+            contents, content_type, size = resolve_uri(uri)
+            return response_ok(contents, content_type, size)
         except ValueError:
             response_ok('404', 'NOT FOUND')
 
@@ -87,7 +90,8 @@ def resolve_uri(uri):
         with codecs.open(path_to_file, errors='ignore') as file_output:
             contents = file_output.read()
         content_type = mimetypes.guess_type(str(path_to_file))[0]
-        return contents, content_type
+        size = os.path.getsize(path_to_file)
+        return contents, content_type, size
 
 
 if __name__ == '__main__':
