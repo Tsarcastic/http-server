@@ -13,7 +13,5 @@ setup(
     install_requires=[],
     extras_require={
         'testing': ['pytest', 'pytest-cov', 'pytest-watch', 'tox'],
-        'development': ['ipython']
-    },
-    entry_points={
-    }
+        'development': ['ipython']}
+)
