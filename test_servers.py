@@ -44,7 +44,7 @@ Content-Type: text/plain
 def test_response_error():
     """Check if correct message sent when response ok called."""
     from server import response_error
-    assert response_error() == b"""HTTP/1.1 500 INTERNAL SERVER ERROR
+    assert response_error('405', 'METHOD NOT ALLOWED') == b"""HTTP/1.1 405 METHOD NOT ALLOWED
 Content-Type: text/plain
 
 @"""
@@ -53,7 +53,7 @@ Content-Type: text/plain
 def test_full_functionality():
     """Functional test from start to finish."""
     from client import client
-    client('This is a request from the client') == b"""HTTP/1.1 200 OK
+    client('GET /index.html HTTP/1.1\r\nHost: www.google.com\r\n\r\n') == b"""HTTP/1.1 200 OK
 Content-Type: text/plain
 
 @"""

@@ -3,17 +3,18 @@
 """Client portion of the exercise on day 6 of Python 401."""
 import socket
 import sys
+import codecs
 
 
 def client(user_mess):
     """The main client function to send message to server."""
     user_mess += '@'
-    info = socket.getaddrinfo('127.0.0.1', 5000)
+    info = socket.getaddrinfo('127.0.0.1', 5001)
     stream_info = [i for i in info if i[1] == socket.SOCK_STREAM][0]
     client = socket.socket(*stream_info[:3])
     client.connect(stream_info[-1])
-    message = user_mess
-    client.sendall(message.encode('utf8'))
+    message = codecs.escape_decode(user_mess)[0]
+    client.sendall(message)
     buffer_length = 8
     message_complete = False
     return_message = ''
