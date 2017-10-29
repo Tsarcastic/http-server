@@ -4,7 +4,7 @@ import sys
 import codecs
 import os
 import mimetypes
-from gevent import StreamServer
+from gevent.server import StreamServer
 
 
 our_server = socket.socket(socket.AF_INET,
@@ -100,4 +100,4 @@ gevent_server = StreamServer(our_server, server)
 
 if __name__ == '__main__':
     print("Server is running")
-    gevent_server().serve_forever()
+    gevent_server.serve_forever()
