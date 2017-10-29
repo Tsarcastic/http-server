@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
 """Client portion of the exercise on day 6 of Python 401."""
+from __future__ import unicode_literals
 import socket
 import sys
 import codecs

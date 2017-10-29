@@ -8,10 +8,6 @@ import pytest
 #     assert client('GET /webroot HTTP/1.1\r\nHost: www.google.com\r\n\r\n') == b"""HTTP/1.1 200 OK\r\nContent-Type: directory\r\nContent-Length: N/A\r\n\r\n<ul><li> a_web_page.html </li></ul>\r\n\r\n<ul><li> images </li></ul>\r\n\r\n<ul><li> make_time.py </li></ul>\r\n\r\n<ul><li> sample.txt </li></ul
 
 
-# def test_resolve_uri_if_dir():
-#     from client import client
-#     assert client('GET /webroot HTTP/1.1\r\nHost: www.google.com\r\n\r\n') !=
-
 def test_resolve_uri_txt_type():
     """Check uri type for sample.txt file."""
     from server import resolve_uri
@@ -38,6 +34,12 @@ def test_resolve_uri_img_type():
     from server import resolve_uri
     contents, content_type, size = resolve_uri('/webroot/images')
     assert content_type == 'directory'
+
+
+def test_response_ok():
+    """Test for functionality of response_ok."""
+    from server import response_ok
+    assert response_ok('contents', 'content_type', 'size').endswith(b'@')
 
 
 def test_response_error():

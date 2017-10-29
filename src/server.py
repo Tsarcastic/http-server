@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
 """Server portion of the exercise on day 6 of Python 401."""
+from __future__ import unicode_literals
 import socket
 import sys
 import codecs
@@ -78,6 +79,7 @@ def parse_request(request):
 def resolve_uri(uri):
     """Function accepts uri passed in request and return a body for a response along with an indication of the content."""
     wd = os.path.abspath(__file__).rstrip('/server.py')
+    print(wd)
     path_to_file = wd + '/webroot' + uri
     if os.path.isfile(path_to_file):
         contents = ''
