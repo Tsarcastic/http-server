@@ -19,6 +19,26 @@ def test_resolve_uri_txt_type():
     assert content_type == 'text/plain'
 
 
+def test_resolve_uri_py_type():
+    """Check uri type for .py file."""
+    from server import resolve_uri
+    contents, content_type, size = resolve_uri('/make_time.py')
+    assert content_type == 'text/x-python'
+
+
+def test_resolve_uri_html_type():
+    """Check uri type for html file."""
+    from server import resolve_uri
+    contents, content_type, size = resolve_uri('/a_web_page.html')
+    assert content_type == 'text/html'
+
+
+def test_resolve_uri_img_type():
+    """Check uri type for images directory."""
+    from server import resolve_uri
+    contents, content_type, size = resolve_uri('/images')
+    assert content_type == 'directory'
+
 # def test_parse_request_file_not_found_error():
 #     """Check for value error if path to no known file passed."""
 #     from server import parse_request
