@@ -1,38 +1,35 @@
 """Test client's ability to send a message and receive an echo."""
 from __future__ import unicode_literals
+import pytest
+
+# def test_if_uri_with_dir_sends_list():
+#     """Check if a list of files is returned if the uri sent in a request is a directory."""
+#     from client import client
+#     assert client('GET /webroot HTTP/1.1\r\nHost: www.google.com\r\n\r\n') == b"""HTTP/1.1 200 OK\r\nContent-Type: directory\r\nContent-Length: N/A\r\n\r\n<ul><li> a_web_page.html </li></ul>\r\n\r\n<ul><li> images </li></ul>\r\n\r\n<ul><li> make_time.py </li></ul>\r\n\r\n<ul><li> sample.txt </li></ul
 
 
-def test_response_ok():
-    """Check if correct message sent when response ok called."""
-    from server import response_ok
-    assert response_ok() == b"""HTTP/1.1 200 OK
-Content-Type: text/plain
+# def test_resolve_uri_if_dir():
+#     from client import client
+#     assert client('GET /webroot HTTP/1.1\r\nHost: www.google.com\r\n\r\n') !=
 
-@"""
+def test_resolve_uri_txt_type():
+    """Check uri type for sample.txt file."""
+    from server import resolve_uri
+    contents, content_type, size = resolve_uri('/sample.txt')
+    assert content_type == 'text/plain'
+
+
+# def test_parse_request_file_not_found_error():
+#     """Check for value error if path to no known file passed."""
+#     from server import parse_request
+#     with pytest.raises(FileNotFoundError):
+#         parse_request('GET /badpath HTTP/1.1\r\nHost: www.google.com\r\n\r\n')
 
 
 def test_response_error():
     """Check if correct message sent when response ok called."""
     from server import response_error
     assert response_error('405', 'METHOD NOT ALLOWED') == b"""HTTP/1.1 405 METHOD NOT ALLOWED
-Content-Type: text/plain
-
-@"""
-
-
-def test_full_functionality_200():
-    """Functional test from start to finish for well-formed request."""
-    from client import client
-    client('GET /index.html HTTP/1.1\r\nHost: www.google.com\r\n\r\n') == b"""HTTP/1.1 200 OK
-Content-Type: text/plain
-
-@"""
-
-
-def test_full_functionality_405():
-    """Check if 405 sent if incorrect method used in request from client."""
-    from client import client
-    client('PUT /index.html HTTP/1.1\r\nHost: www.google.com\r\n\r\n') == b"""HTTP/1.1 405 METHOD NOT ALLOWED
 Content-Type: text/plain
 
 @"""

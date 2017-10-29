@@ -72,7 +72,7 @@ def parse_request(request):
             contents, content_type, size = resolve_uri(uri)
             return response_ok(contents, content_type, size)
         except ValueError:
-            response_ok('404', 'NOT FOUND')
+            response_error('404', 'NOT FOUND')
 
 
 def resolve_uri(uri):
@@ -87,6 +87,7 @@ def resolve_uri(uri):
         size = os.path.getsize(path_to_file)
         return contents, content_type, size
     else:
+        path_to_file = wd + uri
         contents = ''
         content_type = "directory"
         inside_dir = os.listdir(path_to_file)
