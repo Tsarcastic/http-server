@@ -79,10 +79,9 @@ def resolve_uri(uri):
     """Function accepts uri passed in request and return a body for a response along with an indication of the content."""
     wd = os.path.abspath(__file__).rstrip('/server.py')
     path_to_file = wd + '/webroot' + uri
-    print(path_to_file)
     if os.path.isfile(path_to_file):
         contents = ''
-        with codecs.open(path_to_file, errors='ignore', encoding='utf8') as file_output:
+        with codecs.open(path_to_file, 'rb', errors='ignore') as file_output:
             contents = file_output.read()
         content_type = mimetypes.guess_type(str(path_to_file))[0]
         size = os.path.getsize(path_to_file)

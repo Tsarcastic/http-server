@@ -36,14 +36,8 @@ def test_resolve_uri_html_type():
 def test_resolve_uri_img_type():
     """Check uri type for images directory."""
     from server import resolve_uri
-    contents, content_type, size = resolve_uri('/images')
+    contents, content_type, size = resolve_uri('/webroot/images')
     assert content_type == 'directory'
-
-# def test_parse_request_file_not_found_error():
-#     """Check for value error if path to no known file passed."""
-#     from server import parse_request
-#     with pytest.raises(FileNotFoundError):
-#         parse_request('GET /badpath HTTP/1.1\r\nHost: www.google.com\r\n\r\n')
 
 
 def test_response_error():
